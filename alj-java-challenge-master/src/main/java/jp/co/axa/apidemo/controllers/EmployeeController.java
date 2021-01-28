@@ -30,15 +30,20 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(Employee employee){
+    public void saveEmployee(@RequestBody Employee employee){
         employeeService.saveEmployee(employee);
         System.out.println("Employee Saved Successfully");
     }
 
     @DeleteMapping("/employees/{employeeId}")
     public void deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
-        employeeService.deleteEmployee(employeeId);
-        System.out.println("Employee Deleted Successfully");
+    	Employee e = employeeService.getEmployee(employeeId);
+    	if (null != e) {
+    		employeeService.deleteEmployee(employeeId);
+    		System.out.println("Employee Deleted Successfully");
+    	} else {
+    		System.out.println("Employee " + employeeId + " does not exist");
+    	}
     }
 
     @PutMapping("/employees/{employeeId}")
@@ -46,6 +51,7 @@ public class EmployeeController {
                                @PathVariable(name="employeeId")Long employeeId){
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null){
+        	employee.setId(employeeId);
             employeeService.updateEmployee(employee);
         }
 
