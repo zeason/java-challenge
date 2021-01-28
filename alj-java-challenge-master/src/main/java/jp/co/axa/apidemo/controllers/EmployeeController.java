@@ -38,6 +38,7 @@ public class EmployeeController {
     @DeleteMapping("/employees/{employeeId}")
     public void deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
     	Employee e = employeeService.getEmployee(employeeId);
+    	//check if employee exists
     	if (null != e) {
     		employeeService.deleteEmployee(employeeId);
     		System.out.println("Employee Deleted Successfully");
@@ -51,6 +52,7 @@ public class EmployeeController {
                                @PathVariable(name="employeeId")Long employeeId){
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null){
+        	//in case that employeeId is not included in json
         	employee.setId(employeeId);
             employeeService.updateEmployee(employee);
         }
