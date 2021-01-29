@@ -2,7 +2,6 @@ package jp.co.axa.apidemo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import jp.co.axa.apidemo.entities.Employee;
@@ -26,9 +24,6 @@ public class EmployeeServiceTest {
 	Employee employee;
 
 	List<Employee> list;
-
-	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
-			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
 	@Before
 	public void setup() throws Exception {
@@ -47,7 +42,7 @@ public class EmployeeServiceTest {
 	public void getEmployees() throws Exception {
 		List<Employee> employees = employeeService.retrieveEmployees();
 
-		assertThat(employees).isNotNull().isNotEmpty().contains(employee);
+		assertThat(employees).isNotNull().isNotEmpty().anyMatch(el -> el.getName().equals("John"));
 	}
 
 	// Test EmployeeService.getEmployee(1)
@@ -89,7 +84,7 @@ public class EmployeeServiceTest {
 		e.setSalary(10000);
 		employeeService.updateEmployee(e);
 		List<Employee> employees = employeeService.retrieveEmployees();
-		assertThat(employees).isNotNull().isNotEmpty().anyMatch(el -> el.getName().equals("Kate") && el.getId().equals(1L));
+		assertThat(employees).isNotNull().isNotEmpty().anyMatch(el -> el.getName().equals("Kate"));
 	}
 
 	// Test EmployeeService.deleteEmployee(1)

@@ -25,6 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     public Employee getEmployee(Long employeeId) {
         Optional<Employee> optEmp = employeeRepository.findById(employeeId);
+        //this will cause 500 ISE if employeeId doesn't exist. Leave it as be so that client side can detect the error by response status.
         return optEmp.get();
     }
 
